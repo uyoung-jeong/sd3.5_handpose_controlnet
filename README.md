@@ -1,4 +1,7 @@
 # SD 3.5 Hand Pose ControlNet
+
+🤗 [Model Card](https://huggingface.co/uyoung-jeong/sd3.5-handpose-controlnet)
+
 This repo provides SD3.5 hand pose ControlNet.
 Official SD3.5 does not provide pose ControlNet.
 We add a hand pose controlnet on top of their implementation.
