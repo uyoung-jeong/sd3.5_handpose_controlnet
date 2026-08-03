@@ -61,6 +61,29 @@ models
 ## Input Condition
 - Follows SD2.1 pose ControlNet (OpenPose format)
 
+## Training Command
+### Single-GPU debug run:
+```
+python /tools/train_sd3_pose_controlnet.py \
+    --max_train_samples 64 \
+    --max_train_steps 8 \
+    --checkpointing_steps 4 \
+    --mixed_precision bf16 \
+    --gradient_checkpointing \
+    --use_8bit_adam
+```
+
+### Full 4-GPU training (4x RTX A6000 48GB):
+```
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
+accelerate launch --num_processes 4 --mixed_precision bf16 \
+    tools/train_sd3_pose_controlnet.py \
+    --mixed_precision bf16 \
+    --gradient_checkpointing \
+    --use_8bit_adam \
+    --checkpoints_total_limit 6
+```
+
 ## Evaluation
 - FreiHAND test
   - base dir: data/FreiHAND/evaluation
@@ -71,12 +94,23 @@ models
 Evaluation metrics:
 - WiLoR detector: mean max-confidence, detection rate @0.3, True Positive fraction.
 
+```
+python tools/eval_sd3_pose_controlnet.py \
+    --controlnet_path /share_home/uyoung/gen/sd3_5_pose_controlnet/outputs/sd35_large_pose_cn \
+    --out_dir /share_home/uyoung/gen/sd3_5_pose_controlnet/outputs/sd35_large_pose_cn/eval \
+    --device cuda:0
+```
+
 ## Inference
 In-the-wild image input:
 - Run WiLoR detector
 - Run WiLoR hand pose estimator
 - Render a hand pose condition image
 - Generate pose-conditioned images with our controlnet
+
+```
+python tools/infer_sd3_pose_controlnet.py --device cuda:0
+```
 
 ## Results
 Evaluation results:
