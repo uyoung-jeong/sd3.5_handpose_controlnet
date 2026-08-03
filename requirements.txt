@@ -1,0 +1,13 @@
+--extra-index-url https://download.pytorch.org/whl/cu126
+transformers==5.6.2
+diffusers==0.37.0
+huggingface_hub==1.26.0
+numpy
+fire
+pillow
+numpy
+einops
+sentencepiece
+protobuf
+webdataset
+joblib
